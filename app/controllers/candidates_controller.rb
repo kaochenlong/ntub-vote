@@ -1,12 +1,11 @@
 class CandidatesController < ApplicationController
+  before_action :find_candidate, only: [:show, :edit, :update, :destroy]
 
   def index
     @candidates = Candidate.all
   end
 
   def show
-    @candidate = Candidate.find_by(id: params[:id])
-    redirect_to candidates_path, notice: "查無資料" unless @candidate
   end
 
   def new
@@ -14,16 +13,10 @@ class CandidatesController < ApplicationController
   end
 
   def edit
-    @candidate = Candidate.find_by(id: params[:id])
-    redirect_to candidates_path, notice: "查無資料" unless @candidate
   end
 
   def update
-    @candidate = Candidate.find_by(id: params[:id])
-    redirect_to candidates_path, notice: "查無資料" unless @candidate
-    clean_params = params.require(:candidate).permit(:name, :age, :gender, :party)
-
-    if @candidate.update(clean_params)
+    if @candidate.update(candidate_params)
       redirect_to candidates_path, notice: "更新成功"
     else
       render :edit
@@ -31,10 +24,7 @@ class CandidatesController < ApplicationController
   end
 
   def create
-    # 寫入資料...
-    clean_params = params.require(:candidate).permit(:name, :age, :gender, :party)
-
-    @candidate = Candidate.new(clean_params)
+    @candidate = Candidate.new(candidate_params)
 
     if @candidate.save
       redirect_to candidates_path, notice: "新增成功"
@@ -44,10 +34,17 @@ class CandidatesController < ApplicationController
   end
 
   def destroy
-    @candidate = Candidate.find_by(id: params[:id])
-    redirect_to candidates_path, notice: "查無資料" unless @candidate
-
     @candidate.destroy
     redirect_to candidates_path, notice: "刪除成功"
+  end
+
+  private
+  def find_candidate
+    @candidate = Candidate.find_by(id: params[:id])
+    redirect_to candidates_path, notice: "查無資料" unless @candidate
+  end
+
+  def candidate_params
+    params.require(:candidate).permit(:name, :age, :gender, :party)
   end
 end

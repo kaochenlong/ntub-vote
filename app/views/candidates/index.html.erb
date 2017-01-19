@@ -4,13 +4,11 @@
 
 <ul>
 <% @candidates.each do |candidate| %>
-
   <li>
-    <%= link_to candidate.name, candidate_path(candidate) %>
+    <%= link_to candidate.display_name, candidate %>
     <%= link_to '編輯', edit_candidate_path(candidate) %>
-    <%= link_to '刪除', candidate_path(candidate), method: "delete" %>
+    <%= link_to '刪除', candidate, method: "delete" %>
   </li>
-
 <% end %>
 </ul>
 
