@@ -5,7 +5,10 @@
 <ul>
 <% @candidates.each do |candidate| %>
 
-  <li><%= candidate.name %></li>
+  <li>
+    <%= candidate.name %>
+    <%= link_to '刪除', candidate_path(candidate), method: "delete" %>
+  </li>
 
 <% end %>
 </ul>

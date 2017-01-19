@@ -10,8 +10,14 @@ class CandidatesController < ApplicationController
 
   def create
     # 寫入資料...
-    flash[:notice] = "新增成功"
-    redirect_to candidates_path
-  end
+    clean_params = params.require(:candidate).permit(:name, :age, :gender, :party)
 
+    @candidate = Candidate.new(clean_params)
+
+    if @candidate.save
+      redirect_to candidates_path, notice: "新增成功"
+    else
+      render :new
+    end
+  end
 end
