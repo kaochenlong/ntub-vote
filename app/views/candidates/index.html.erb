@@ -5,6 +5,8 @@
 <ul>
 <% @candidates.each do |candidate| %>
   <li>
+    <%= candidate.vote %>票
+    <%= link_to '投票', vote_candidate_path(candidate), method: "post" %>
     <%= link_to candidate.display_name, candidate %>
     <%= link_to '編輯', edit_candidate_path(candidate) %>
     <%= link_to '刪除', candidate, method: "delete" %>

@@ -1,11 +1,16 @@
 class CandidatesController < ApplicationController
-  before_action :find_candidate, only: [:show, :edit, :update, :destroy]
+  before_action :find_candidate, only: [:show, :edit, :update, :destroy, :vote]
 
   def index
-    @candidates = Candidate.all
+    @candidates = Candidate.all.order(vote: :desc)
   end
 
   def show
+  end
+
+  def vote
+    @candidate.update(vote: @candidate.vote + 1)
+    redirect_to candidates_path, notice: "投票成功!"
   end
 
   def new
